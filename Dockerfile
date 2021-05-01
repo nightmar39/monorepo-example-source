@@ -1,5 +1,5 @@
 FROM python:3.8.2-alpine3.11
-LABEL account="salesdemo"
+LABEL cf_account="salesdemo"
 
 ENV FLASK_APP=flaskr
 ENV FLASK_ENV=development
