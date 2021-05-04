@@ -2,7 +2,7 @@ FROM python:3.8.2-alpine3.11
 
 LABEL cf_account="salesdemo" \
       source="https://github.com/codefresh-contrib/salesdemo-flaskr" \
-      additional="1"
+      additional="2"
 
 ENV FLASK_APP=flaskr
 ENV FLASK_ENV=development
