@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Creates Codefresh pipeline variables which can be used to automate a
 # pretend developer making commits to a demo Git repo (changing a color).
@@ -32,11 +32,11 @@ function random_skip() {
     THIS_TIME=$((1 + $RANDOM % $CHANCES))
     if [ $THIS_TIME -le $DECISION_POINT ]
         then {
-            echo 'Not skipping this time'
+            # echo 'Not skipping this time'
             export SKIP_THIS_TIME=false
         }
         else {
-            echo 'Skipping this time'
+            # echo 'Skipping this time'
             export SKIP_THIS_TIME=true
         }
     fi
@@ -50,7 +50,7 @@ function choose_color() {
     COLOR_INDEX=$(($RANDOM % 7))
     export COLOR_CHOICE=${COLOR_LIST[COLOR_INDEX]}
     cf_export COLOR_CHOICE || true
-    echo "Color choice: $COLOR_CHOICE"
+    # echo "Color choice: $COLOR_CHOICE"
 }
 
 function choose_jira_issue() {
@@ -60,7 +60,7 @@ function choose_jira_issue() {
     export JIRA_ISSUE=${ISSUE_LIST[ISSUE_INDEX]}
     export JIRA_ISSUE_PREFIX=SA
     cf_export JIRA_ISSUE || true
-    echo "JIRA issue: $JIRA_ISSUE"
+    # echo "JIRA issue: $JIRA_ISSUE"
 }
 
 function choose_commit_message() {
@@ -70,7 +70,7 @@ function choose_commit_message() {
     MESSAGE_INDEX=$(($RANDOM % 4))
     export COMMIT_MESSAGE=${MESSAGE_LIST[MESSAGE_INDEX]}
     cf_export COMMIT_MESSAGE || true
-    echo "Commit message: $COMMIT_MESSAGE"
+    # echo "Commit message: $COMMIT_MESSAGE"
 }
 
 function choose_commiter() {
@@ -82,7 +82,7 @@ function choose_commiter() {
     export COMMITTER_EMAIL=${EMAIL_LIST[COMMITTER_INDEX]}
     cf_export COMMITTER_NAME || true
     cf_export COMMITTER_EMAIL || true
-    echo "Committer: $COMMITTER_NAME $COMMITTER_EMAIL"
+    # echo "Committer: $COMMITTER_NAME $COMMITTER_EMAIL"
 }
 
 
