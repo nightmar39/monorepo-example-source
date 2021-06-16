@@ -12,10 +12,11 @@
 # COMMITTER_NAME = 1 of 2 randomized committer names
 # COMMITTER_EMAIL = corresponding committer email
 
-# Inputs
-# ------
-# $1 = Skip ratio numerator
-# $2 = Skip ratio denominator
+# Arguments
+# ---------
+# $SKIP_THIS_TIME = if this already exists, then the args are ignored
+# $1 = Skip ratio numerator (required if $SKIP_THIS_TIME not provided)
+# $2 = Skip ratio denominator (required if $SKIP_THIS_TIME not provided)
 # For example, if you want to skip 2 out of every 5 times this script runs
 # then you would call it like this:
 # ./generate-change-vars.sh 2 5
@@ -75,9 +76,9 @@ function choose_commit_message() {
 
 function choose_commiter() {
     # Sets output vars COMMITTER_NAME and COMMITTER_EMAIL
-    declare -a NAME_LIST=("TedSpinks" "dustinvanbuskirk")
-    declare -a EMAIL_LIST=("ted.spinks@codefresh.io" "dev@vanbuskirk.me")
-    COMMITTER_INDEX=$(($RANDOM % 2))
+    declare -a NAME_LIST=("TedSpinks" "dustinvanbuskirk" "andrew-hromis")
+    declare -a EMAIL_LIST=("ted.spinks@codefresh.io" "dev@vanbuskirk.me" "andrew.hromis@codefresh.io")
+    COMMITTER_INDEX=$(($RANDOM % 3))
     export COMMITTER_NAME=${NAME_LIST[COMMITTER_INDEX]}
     export COMMITTER_EMAIL=${EMAIL_LIST[COMMITTER_INDEX]}
     cf_export COMMITTER_NAME || true
@@ -90,11 +91,15 @@ function choose_commiter() {
 # Get inputs
 SKIP_TIMES=$1   # skip ratio numerator
 CHANCES=$2      # skip ratio denominator
-if [ -z "$SKIP_TIMES" ]; then echo Missing script arguments; exit 1; fi;
-if [ -z "$CHANCES" ]; then echo Missing 2nd script argument; exit 1; fi;
 
-random_skip
-if [ "$SKIP_THIS_TIME" = true ]; then exit 0; fi
+# If $SKIP_THIS_TIME doesn't already exist, create it
+if [ -z "$SKIP_THIS_TIME" ]
+  then 
+    if [ -z "$SKIP_TIMES" ]; then echo Missing script arguments; exit 1; fi
+    if [ -z "$CHANCES" ]; then echo Missing 2nd script argument; exit 1; fi
+    random_skip
+fi
+
 choose_color
 choose_jira_issue
 choose_commit_message
