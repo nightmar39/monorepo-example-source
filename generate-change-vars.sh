@@ -76,8 +76,8 @@ function choose_commit_message() {
 
 function choose_commiter() {
     # Sets output vars COMMITTER_NAME and COMMITTER_EMAIL
-    declare -a NAME_LIST=("TedSpinks" "dustinvanbuskirk" "andrew-hromis")
-    declare -a EMAIL_LIST=("ted.spinks@codefresh.io" "dev@vanbuskirk.me" "andrew.hromis@codefresh.io")
+    declare -a NAME_LIST=("TedSpinks" "dustinvanbuskirk" "ahromis")
+    declare -a EMAIL_LIST=("ted.spinks@codefresh.io" "dev@vanbuskirk.me" "ahromis@gmail.com")
     COMMITTER_INDEX=$(($RANDOM % 3))
     export COMMITTER_NAME=${NAME_LIST[COMMITTER_INDEX]}
     export COMMITTER_EMAIL=${EMAIL_LIST[COMMITTER_INDEX]}
