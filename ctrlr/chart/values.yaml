@@ -1,11 +1,10 @@
-# Default values for Flaskr deployments
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
-  repository: 336151728602.dkr.ecr.us-east-1.amazonaws.com/flaskr
-  tag: main-268b6f1
+  repository: 336151728602.dkr.ecr.us-east-1.amazonaws.com/ctrlr
+  tag: REPLACE_WITH_IMAGE_TAG
 service:
-  name: flaskr
+  name: ctrlr
   type: LoadBalancer
   externalPort: 80
   internalPort: 5000
