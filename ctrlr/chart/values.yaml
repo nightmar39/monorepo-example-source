@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   pullPolicy: IfNotPresent
   repository: 336151728602.dkr.ecr.us-east-1.amazonaws.com/ctrlr
-  tag: REPLACE_WITH_IMAGE_TAG
+  tag: main-f505305
 service:
   name: ctrlr
   type: LoadBalancer
