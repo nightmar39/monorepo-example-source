@@ -22,7 +22,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
       {{- if .Values.global }}
-        image: "{{ .Values.image.repository }}:{{ .Values.global.image.tag.flask-ui }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.global.image.tag.flaskui }}"
       {{- else }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
       {{- end }}
