@@ -5,7 +5,7 @@ image:
   tag: main-f505305
 service:
   name: ctrlr
-  type: LoadBalancer
+  type: ClusterIP
   externalPort: 80
   internalPort: 5000
 resources:
