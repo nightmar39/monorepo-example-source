@@ -21,4 +21,3 @@ To run unit tests inside the container execute:
 and then in the new command promt run
 
 `pip install pytest && pytest`
-
