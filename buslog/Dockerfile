@@ -4,6 +4,7 @@ LABEL cf_account="salesdemo" \
       source="https://github.com/codefresh-contrib/salesdemo-flaskr" \
       logic="2.0"
 
+# ENV
 ENV FLASK_APP=flaskr
 ENV FLASK_ENV=development
 
