@@ -1,6 +1,7 @@
 # quay.io/codefresh_sa/color-service
 
-FROM nginx:1.21.6
+# FROM nginx:1.21.6
+FROM nginx:1.22-alpine
 
 COPY 05-interpolation.sh /docker-entrypoint.d/
 COPY index.html /usr/share/nginx/html/
