@@ -16,14 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Create Short SHA
-      run:
-        echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV;
-        echo ${SHORT_SHA}
+    - name: Create SHORT_SHA
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       
     - name: Building the Docker image
       run:
-        docker build . --tag quay.io/codefresh_sa/color-service:${SHORT_SHA}
+        docker build . --tag quay.io/codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
