@@ -18,7 +18,7 @@ jobs:
     
     - name: Create Short SHA
       run:
-        echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+        echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV;
         echo ${SHORT_SHA}
       
     - name: Building the Docker image
