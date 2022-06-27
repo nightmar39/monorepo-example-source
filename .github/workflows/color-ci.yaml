@@ -60,8 +60,9 @@ jobs:
           GIT_REVISION: ${{ github.sha }}
           GIT_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           GIT_COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-          DOCKER_USERNAME : codefresh_sa+csdp_salesdemo_dev
-          DOCKER_PASSWORD : ${{ secrets.docker_registry_password }}
+          USERNAME : codefresh_sa+csdp_salesdemo_dev
+          PASSWORD : ${{ secrets.docker_registry_password }}
+          DOMAIN : quay.io
           WORKFLOW_NAME: ${{ github.workflow }}
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/${{github.workflow}}
           LOGS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
