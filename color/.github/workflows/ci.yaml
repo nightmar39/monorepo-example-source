@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Building the Docker image
-      run: docker build . --file Dockerfile --tag color-service:${{ github.sha }}
+      run: docker build . --file Dockerfile --tag quay.io/codefresh_sa/color-service:${{ github.sha }}
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
