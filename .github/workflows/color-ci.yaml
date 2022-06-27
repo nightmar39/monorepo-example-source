@@ -1,6 +1,9 @@
 name: Docker Image CI
 
-on: [pull_request]
+on:
+  push:
+    paths:    
+      - 'color/**'
 
 jobs:
 
