@@ -23,12 +23,12 @@ jobs:
     - name: Building the Docker image
       run: |
         cd color;
-        docker build . --tag color-service:${{ steps.vars.outputs.sha_short }}
+        docker build . --tag quay.io/codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
       with:
-        image: color-service
+        image: codefresh_sa/color-service
         tags: ${{ steps.vars.outputs.sha_short }}
         registry: quay.io
         username: codefresh_sa+csdp_salesdemo_dev
