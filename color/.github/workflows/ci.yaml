@@ -20,7 +20,7 @@ jobs:
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       
     - name: Building the Docker image
-      run: docker build . --file Dockerfile --tag quay.io/codefresh_sa/color-service:${SHORT_SHA}
+      run: docker build . --tag quay.io/codefresh_sa/color-service:${SHORT_SHA}
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
