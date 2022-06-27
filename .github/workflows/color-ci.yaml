@@ -9,16 +9,20 @@ on:
 
 jobs:
 
-  build_new:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Create Short SHA
+      run:
+        echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        echo ${SHORT_SHA}
       
     - name: Building the Docker image
       run:
-        echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
         docker build . --tag quay.io/codefresh_sa/color-service:${SHORT_SHA}
 
     - name: Push To Registry
