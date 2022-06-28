@@ -63,6 +63,7 @@ jobs:
           CF_REGISTRY_USERNAME : codefresh_sa+csdp_salesdemo_dev
           CF_REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
           CF_REGISTRY_DOMAIN : quay.io
+          IMAGE_NAME : color
           WORKFLOW_NAME: ${{ github.workflow }}
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/${{github.workflow}}
           LOGS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
