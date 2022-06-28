@@ -60,9 +60,9 @@ jobs:
           GIT_REVISION: ${{ github.sha }}
           GIT_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           GIT_COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-          CF_REGISTRY_USERNAME : codefresh_sa+csdp_salesdemo_dev
-          CF_REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
-          CF_REGISTRY_DOMAIN : quay.io
+          REGISTRY_USERNAME : codefresh_sa+csdp_salesdemo_dev
+          REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
+          REGISTRY_DOMAIN : quay.io
           IMAGE_NAME : color
           WORKFLOW_NAME: ${{ github.workflow }}
           # WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/${{github.workflow}}
