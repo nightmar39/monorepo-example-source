@@ -47,6 +47,10 @@ jobs:
       image: quay.io/codefreshplugins/argo-hub-workflows-codefresh-csdp-versions-1.1.0-images-report-image-info:main
     
     steps:
+#     quay.io/codefresh_sa/color-service:${{ needs.build.outputs.sha_short }}
+      - name: Echo var
+        run: |
+          echo "quay.io/codefresh_sa/color-service:${{ needs.build.outputs.sha_short }}"
       - name: Report Docker Image to CSDP
         run: |
           if [[ ${{ github.event_name }} == 'pull_request' ]]; then
