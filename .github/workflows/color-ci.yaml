@@ -51,8 +51,8 @@ jobs:
           else
             export "GIT_BRANCH=${{ github.ref_name }}"
           fi
-          node /usr/src/app/index.js
-        working-directory: /usr/src/app
+          node /app/src/index.js
+        working-directory: /app/src/
         env:
           IMAGE_NAME : quay.io/codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
           CF_HOST: https://g.codefresh.io
