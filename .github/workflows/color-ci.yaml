@@ -41,7 +41,7 @@ jobs:
     needs: [build]
   
     container:
-      image: quay.io/codefreshplugins/argo-hub-workflows-codefresh-csdp-versions-1.0.0-images-report-image-info:main
+      image: quay.io/codefreshplugins/argo-hub-workflows-codefresh-csdp-versions-1.1.0-images-report-image-info:main
     
     steps:
       - name: Report Docker Image to CSDP
@@ -54,19 +54,13 @@ jobs:
           node /usr/src/app/index.js
         working-directory: /usr/src/app
         env:
-          IMAGE_URI: quay.io/codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
+          IMAGE_NAME : quay.io/codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
+          CF_HOST: https://g.codefresh.io
           CF_API_KEY: ${{ secrets.CF_RUNTIME_KEY }}
-          GIT_BRANCH: ${{ github.ref_name }}
-          GIT_REVISION: ${{ github.sha }}
-          GIT_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          GIT_COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
           REGISTRY_USERNAME : codefresh_sa+csdp_salesdemo_dev
           REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
           REGISTRY_DOMAIN : quay.io
-          IMAGE_NAME : color
           WORKFLOW_NAME: ${{ github.workflow }}
           # WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/${{github.workflow}}
           WORKFLOW_URL: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
           LOGS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          GIT_SENDER_LOGIN: ${{ github.actor }}
-          CF_HOST: https://g.codefresh.io
