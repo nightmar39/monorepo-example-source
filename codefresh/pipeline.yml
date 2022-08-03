@@ -1,0 +1,145 @@
+version: '1.0'
+kind: pipeline
+metadata:
+  name: cf-tests/monorepo-test
+  project: cf-tests
+  projectId: 60dbbffb6483e002002ff23c
+  revision: 19
+  accountId: 60abdc81d225007a1ed46c28
+  created_at: '2022-08-01T23:29:25.386Z'
+  updated_at: '2022-08-02T18:00:28.222Z'
+  shortName: monorepo-test
+  deprecate: {}
+  originalYamlString: |+
+    # More examples of Codefresh YAML can be found at
+    # https://codefresh.io/docs/docs/yaml-examples/examples/
+
+    version: "1.0"
+    # Stages can help you organize your steps in stages
+    stages:
+      - "clone"
+      - "build"
+      - "test"
+
+    steps:
+      clone:
+        title: "Cloning repository"
+        type: "git-clone"
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        # CF_BRANCH value is auto set when pipeline is triggered
+        # Learn more at codefresh.io/docs/docs/codefresh-yaml/variables/
+        revision: "${{CF_BRANCH}}"
+        working_directory: "${{WORKING_DIR}}"
+        git: "github"
+        stage: "clone"
+
+      build:
+        title: "Building Docker image"
+        type: "build"
+        image_name: "${{CF_REPO_OWNER}}/${{IMAGE_NAME}}"
+        working_directory: "${{clone}}/${{WORKING_DIR}}"
+        tag: "${{CF_SHORT_REVISION}}"
+        dockerfile: "Dockerfile"
+        stage: "build"
+
+      test:
+        title: "Running test"
+        type: "freestyle" # Run any command
+        image: "ubuntu:latest" # The image in which command will be executed
+        working_directory: "${{clone}}" # Running command where code cloned
+        commands:
+          - echo "Running Smoke test for ${{IMAGE_NAME}}"
+        stage: "test"
+
+  id: 62e861d56cef0cf3f911e983
+spec:
+  triggers:
+    - name: color-trigger
+      type: git
+      repo: nightmar39/monorepo-example-source
+      events:
+        - push.heads
+      pullRequestAllowForkEvents: false
+      commentRegex: /.*/gi
+      branchRegex: /.*/gi
+      branchRegexInput: regex
+      modifiedFilesGlob: color/**
+      provider: github
+      disabled: false
+      options:
+        noCache: false
+        noCfCache: false
+        resetVolume: false
+      verified: true
+      context: github
+      contexts: []
+      variables:
+        - key: IMAGE_NAME
+          value: color-app
+        - key: WORKING_DIR
+          value: color
+      lastExecutionDate: '2022-08-02T18:00:39.261Z'
+      status: verified
+      id: 62e861d66cef0c5d6411e984
+      endpoint: 'https://g.codefresh.io/api/providers/github/hook/XRrY7a9hN8'
+      secret: KhCsvCUYjDL2ec5u
+    - name: flask
+      type: git
+      repo: nightmar39/monorepo-example-source
+      events:
+        - push.heads
+      pullRequestAllowForkEvents: false
+      commentRegex: /.*/gi
+      branchRegex: /.*/gi
+      branchRegexInput: regex
+      modifiedFilesGlob: flask-ui/**
+      provider: github
+      disabled: false
+      options:
+        noCache: false
+        noCfCache: false
+        resetVolume: false
+      verified: true
+      context: github
+      contexts: []
+      variables:
+        - key: IMAGE_NAME
+          value: flask-ui
+        - key: WORKING_DIRECTORY
+          value: flask-ui
+      status: verified
+      id: 62e866af6cef0c5efc11e988
+      endpoint: 'https://g.codefresh.io/api/providers/github/hook/XRrY7a9hN8'
+      secret: KhCsvCUYjDL2ec5u
+  stages:
+    - clone
+    - build
+    - test
+  variables: []
+  contexts: []
+  steps:
+    clone:
+      title: Cloning repository
+      type: git-clone
+      repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+      revision: '${{CF_BRANCH}}'
+      working_directory: '${{WORKING_DIR}}'
+      git: github
+      stage: clone
+    build:
+      title: Building Docker image
+      type: build
+      image_name: '${{CF_REPO_OWNER}}/${{IMAGE_NAME}}'
+      working_directory: '${{clone}}/${{WORKING_DIR}}'
+      tag: '${{CF_SHORT_REVISION}}'
+      dockerfile: Dockerfile
+      stage: build
+    test:
+      title: Running test
+      type: freestyle
+      image: 'ubuntu:latest'
+      working_directory: '${{clone}}'
+      commands:
+        - 'echo "Running Smoke test for ${{IMAGE_NAME}}"'
+      stage: test
+
