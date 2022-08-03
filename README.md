@@ -1,10 +1,7 @@
-# example-multiservice
+# Codefresh Monorepo Example
 
-Example application monorepo with 3 microservices. Each microservice directory has its own Dockerfile and Helm Chart.
+Terraform 
 
-Helm Charts in this repo:
+To use this repo, update the 'provider' codefresh/main.tf to use your Codefresh API key. 
 
-- Are deployed by an umbrella chart in the [example-multiservice-deploy](https://github.com/codefresh-contrib/example-multiservice-deploy) GitOps repo
-- Should be versioned only when the structure of the chart changes (not for image tag changes) - this minimizes chart version sprawl
-  - Image tags are referenced from Global values in the umbrella chart (image tag changes are versioned there)
-
+You can apply the main.tf terraform file to create a pipeline and project resources, or copy the steps from codefresh.yml

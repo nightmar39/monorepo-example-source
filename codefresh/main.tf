@@ -9,7 +9,7 @@ terraform {
 
 provider "codefresh" {
   api_url = "https://g.codefresh.io/api"
-  token   = "617cca8ae32e95bc27081a64.5f0555ff31ed425abe391aff2531112b"
+  token   = "***ENTER***TOKEN***HERE"
 }
 
 resource "codefresh_project" "monorepo_proj" {
@@ -40,7 +40,7 @@ resource "codefresh_pipeline" "monorepo_pipe" {
 
     spec_template {
       repo        = "nightmar39/monorepo-example-source"
-      path        = "../codefresh/codefresh.yaml"
+      path        = "codefresh/codefresh.yml"
       revision    = "main"
       context     = "github"
     }
