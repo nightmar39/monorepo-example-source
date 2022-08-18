@@ -26,15 +26,15 @@ jobs:
     - name: Building the Docker image
       run: |
         cd color;
-        docker build . --tag codefresh_sa/color-service:${{ steps.vars.outputs.sha_short }}
+        docker build . --tag anthony_rozario/color-service:${{ steps.vars.outputs.sha_short }}
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
       with:
-        image: codefresh_sa/color-service
+        image: anthony_rozario/color-service
         tags: ${{ steps.vars.outputs.sha_short }}
         registry: quay.io
-        username: codefresh_sa+csdp_salesdemo_dev
+        username: anthony_rozario
         password: ${{ secrets.docker_registry_password }}
 
   csdp-report-image-info:
@@ -47,10 +47,10 @@ jobs:
       image: quay.io/codefreshplugins/argo-hub-workflows-codefresh-csdp-versions-1.1.0-images-report-image-info:main
     
     steps:
-#     quay.io/codefresh_sa/color-service:${{ needs.build.outputs.sha_short }}
+#     quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}
       - name: Echo var
         run: |
-          echo "quay.io/codefresh_sa/color-service:${{ needs.build.outputs.sha_short }}"
+          echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
       - name: Report Docker Image to CSDP
         run: |
           if [[ ${{ github.event_name }} == 'pull_request' ]]; then
@@ -61,10 +61,10 @@ jobs:
           node /app/src/index.js
         working-directory: /app/src/
         env:
-          IMAGE_NAME : quay.io/codefresh_sa/color-service:${{ needs.build.outputs.sha_short }} 
+          IMAGE_NAME : quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }} 
           CF_HOST: https://g.codefresh.io
           CF_API_KEY: ${{ secrets.CF_RUNTIME_KEY }}
-          REGISTRY_USERNAME : codefresh_sa+csdp_salesdemo_dev
+          REGISTRY_USERNAME : anthony_rozario
           REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
           REGISTRY_DOMAIN : quay.io
           WORKFLOW_NAME: ${{ github.workflow }}
