@@ -2,10 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - color/**
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
 
@@ -18,7 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+      name: Checkout 
+
     - name: Create SHORT_SHA
       id: vars
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
@@ -52,19 +52,14 @@ jobs:
         run: |
           echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
       - name: Report Docker Image to CSDP
-        run: |
-          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
-            export "GIT_BRANCH=${{ github.head_ref }}"
-          else
-            export "GIT_BRANCH=${{ github.ref_name }}"
-          fi
-          node /app/src/index.js
-        working-directory: /app/src/
-        env:
+        uses: codefresh-io/codefresh-report-image@latest     
+        with:
+          CF_RUNTIME_NAME: 'csdp-july'
           IMAGE_NAME : quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }} 
           CF_HOST: https://g.codefresh.io
           CF_API_KEY: ${{ secrets.CF_RUNTIME_KEY }}
           REGISTRY_USERNAME : anthony_rozario
+          CF_REGISTRY_INTEGRATION: 'quay'
           REGISTRY_PASSWORD : ${{ secrets.docker_registry_password }}
           REGISTRY_DOMAIN : quay.io
           WORKFLOW_NAME: ${{ github.workflow }}
