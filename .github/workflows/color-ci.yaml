@@ -63,7 +63,7 @@ jobs:
         CF_API_KEY: ${{ secrets.USER_TOKEN }}
 
           # Name of Container registry integration
-        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
+        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker-ghactions'
 
           # The git branch which is related for the commit
         CF_GIT_BRANCH: 'main'
