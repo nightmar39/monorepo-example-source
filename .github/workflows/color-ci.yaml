@@ -24,9 +24,15 @@ jobs:
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       
     - name: Building the Docker image
+      env:
+        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
       run: |
         cd color;
         docker build . --tag anthony_rozario/color-service:${{ steps.vars.outputs.sha_short }}
+        docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
+        echo "Image should be accessible to your local machine (after docker login) by:"
+        echo "docker pull $CF_IMAGE"
+        docker pull $CF_IMAGE
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
@@ -37,50 +43,39 @@ jobs:
         username: anthony_rozario
         password: ${{ secrets.docker_registry_password }}
 
-  csdp-report-image-info:
-  
-    runs-on: ubuntu-latest
-    
-    needs: build
-  
-    container:
-      image: quay.io/codefreshplugins/argo-hub-workflows-codefresh-csdp-versions-1.1.0-images-report-image-info:main
-    
-    steps:
-#     quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}
-      - name: Echo var
-        run: |
-          echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
-      - name: report image by action
-        with:
-          # Name of runtime to implement the enrichment
-          CF_RUNTIME_NAME: 'codefresh-hosted'
+    - name: Echo var
+      run: |
+        echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
+    - name: report image by action
+      with:
+        # Name of runtime to implement the enrichment
+        CF_RUNTIME_NAME: 'codefresh-hosted'
 
           # Codefresh API key !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
           # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
-          CF_API_KEY: ${{ secrets.USER_TOKEN }}
+        CF_API_KEY: ${{ secrets.USER_TOKEN }}
 
           # Name of Container registry integration
-          CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
+        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
 
           # The git branch which is related for the commit
-          CF_GIT_BRANCH: 'main'
+        CF_GIT_BRANCH: 'main'
 
           # Image path to enrich 
-          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
+        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
 
           # GitHub Access token !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
           # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
-          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
+        CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
 
           # Name of Jira integration
-          CF_JIRA_INTEGRATION: 'jira' 
+        CF_JIRA_INTEGRATION: 'jira' 
 
          # String starting with the issue ID to associate with image
-          CF_JIRA_MESSAGE: 'CR-11027'
+        CF_JIRA_MESSAGE: 'CR-11027'
 
-          # Jira project filter
-          CF_JIRA_PROJECT_PREFIX: "CR"
-        uses: codefresh-io/codefresh-report-image@latest
+        # Jira project filter
+        CF_JIRA_PROJECT_PREFIX: "CR"
+      uses: codefresh-io/codefresh-report-image@latest
         
         
