@@ -15,17 +15,46 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       
     - name: Building the Docker image
       run:
         echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
         docker build . --tag quay.io/codefresh_sa/color-service:${SHORT_SHA}
+        docker build . --tag $CF_IMAGE && docker push $CF_IMAGE
+      - name: report image by action
+        with:
+          # Name of runtime to implement the enrichment
+          CF_RUNTIME_NAME: 'csdp-july'
 
-    - name: Push To Registry
-      uses: redhat-actions/push-to-registry@v2.5.1
-      with:
-        image: color-service
-        tags: ${{ github.sha }}
-        registry: quay.io
-        username: codefresh_sa
-        password: ${{ secrets.docker_registry_password }}
+          # Codefresh API key !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
+          # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+          CF_API_KEY: ${{ secrets.USER_TOKEN }}
+
+          # Name of Container registry integration
+          CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
+
+          # The git branch which is related for the commit
+          CF_GIT_BRANCH: 'main'
+
+          # Image path to enrich 
+          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
+
+          # GitHub Access token !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
+          # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
+
+          # Name of Jira integration
+          CF_JIRA_INTEGRATION: 'jira' 
+
+         # String starting with the issue ID to associate with image
+          CF_JIRA_MESSAGE: 'CR-11027'
+
+          # Jira project filter
+          CF_JIRA_PROJECT_PREFIX: "CR"
+        uses: codefresh-io/codefresh-report-image@latest
