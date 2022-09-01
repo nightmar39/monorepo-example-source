@@ -55,6 +55,7 @@ jobs:
         echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
 
     - name: report image
+      uses: codefresh-io/codefresh-report-image@latest
       with:
         # Runtime to use for the enrichment.
         CF_RUNTIME_NAME: 'csdp-july'
@@ -64,7 +65,7 @@ jobs:
         CF_API_KEY: '630ff4f6e89a56567ffc80f4.b8111387fce4ad5f5a0af536d868ec7b'
 
         # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
-        CF_IMAGE: 'docker.io/nightmar39/color-app:${{ needs.build.outputs.sha_short }}'
+        CF_IMAGE: '${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1'
 
         # Container registry integration where the image is stored.
         CF_CONTAINER_REGISTRY_INTEGRATION: 'gha2'
