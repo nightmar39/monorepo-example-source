@@ -64,10 +64,10 @@ jobs:
         CF_API_KEY: '630ff4f6e89a56567ffc80f4.b8111387fce4ad5f5a0af536d868ec7b'
 
         # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
-        CF_IMAGE: 'quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}'
+        CF_IMAGE: 'docker.io/nightmar39/color-app:${{ needs.build.outputs.sha_short }}'
 
         # Container registry integration where the image is stored.
-        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker-ghactions'
+        CF_CONTAINER_REGISTRY_INTEGRATION: 'gha2'
 
         # Git branch with the commit  Pull Request data to add to the image. Pass the branch from the event payload used to trigger your action.
         CF_GIT_BRANCH: 'main'
