@@ -53,36 +53,38 @@ jobs:
     - name: Echo var
       run: |
         echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
-    - name: report image by action
+
+    - name: report image
       with:
-        # Name of runtime to implement the enrichment
-        CF_RUNTIME_NAME: 'csdp-july'
+        # Runtime to use for the enrichment.
+        CF_RUNTIME_NAME: 'codefresh-hosted'
 
-          # Codefresh API key !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
-          # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
-        CF_API_KEY: ${{ secrets.USER_TOKEN }}
+        # API key for authentication to Codefresh. !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
+        # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        CF_API_KEY: '630ff4f6e89a56567ffc80f4.b8111387fce4ad5f5a0af536d868ec7b'
 
-          # Name of Container registry integration
+        # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
+        CF_IMAGE: 'quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}'
+
+        # Container registry integration where the image is stored.
         CF_CONTAINER_REGISTRY_INTEGRATION: 'docker-ghactions'
 
-          # The git branch which is related for the commit
+        # Git branch with the commit  Pull Request data to add to the image. Pass the branch from the event payload used to trigger your action.
         CF_GIT_BRANCH: 'main'
 
-          # Image path to enrich 
-        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
+        # GitHub authentication token. !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
+        # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        CF_GITHUB_TOKEN: '${{secrets.CF_GITHUB_TOKEN}}'
 
-          # GitHub Access token !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
-          # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
-        CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
+        # Issue tracking integration to use to enrich the image.
+        CF_JIRA_INTEGRATION: 'jira'
 
-          # Name of Jira integration
-        CF_JIRA_INTEGRATION: 'jira' 
+        # Jira project prefix  identifying the ticket number to use.
+        CF_JIRA_PROJECT_PREFIX: 'ACT'
 
-         # String starting with the issue ID to associate with image
-        CF_JIRA_MESSAGE: 'CR-11027'
+        # Search for issue IDs matching this string to associate with your image.
+        CF_JIRA_MESSAGE: '1'
 
-        # Jira project filter
-        CF_JIRA_PROJECT_PREFIX: "CR"
+
       uses: codefresh-io/codefresh-report-image@latest
-        
-        
+            
