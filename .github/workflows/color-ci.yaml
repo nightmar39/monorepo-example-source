@@ -55,7 +55,6 @@ jobs:
         echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
 
     - name: report image
-      uses: codefresh-io/codefresh-report-image@latest
       with:
         # Runtime to use for the enrichment.
         CF_RUNTIME_NAME: 'csdp-july'
