@@ -40,13 +40,13 @@ jobs:
         echo "Image should be accessible to your local machine (after docker login) by: ${{ steps.vars.outputs.sha_short }}"
         echo "docker pull $CF_IMAGE:${{ steps.vars.outputs.sha_short }} "
         docker pull $CF_IMAGE 
-        echo "::set-output name=cf-image::nightmar39/color:${{ steps.vars.outputs.sha_short }} 
+        echo "::set-output name=cf-image::nightmar39/color:${{ steps.vars.outputs.sha_short }}" 
 
     - name: Echo var
       run: |
         echo "${{ needs.build.outputs.sha_short }}"
         echo '${{ steps.build.outputs.cf-image }}'
-        
+
     - name: report image
       with:
         # Runtime to use for the enrichment.
