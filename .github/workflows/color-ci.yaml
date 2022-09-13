@@ -31,6 +31,7 @@ jobs:
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       
     - name: Building the Docker image
+      id: build
       env:
         CF_IMAGE: nightmar39/color:${{ steps.vars.outputs.sha_short }} 
       run: |
@@ -39,11 +40,13 @@ jobs:
         echo "Image should be accessible to your local machine (after docker login) by: ${{ steps.vars.outputs.sha_short }}"
         echo "docker pull $CF_IMAGE:${{ steps.vars.outputs.sha_short }} "
         docker pull $CF_IMAGE 
+        echo "::set-output name=cf-image::nightmar39/color:${{ steps.vars.outputs.sha_short }} 
 
     - name: Echo var
       run: |
-        echo "quay.io/anthony_rozario/color-service:${{ needs.build.outputs.sha_short }}"
-
+        echo "${{ needs.build.outputs.sha_short }}"
+        echo '${{ steps.build.outputs.cf-image }}'
+        
     - name: report image
       with:
         # Runtime to use for the enrichment.
@@ -54,7 +57,7 @@ jobs:
         CF_API_KEY: '630ff4f6e89a56567ffc80f4.b8111387fce4ad5f5a0af536d868ec7b'
 
         # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
-        CF_IMAGE: '${{ env.CF_IMAGE }}'
+        CF_IMAGE: '${{ steps.build.outputs.cf-image }}'
 
         # Container registry integration where the image is stored.
         CF_CONTAINER_REGISTRY_INTEGRATION: 'gha2'
