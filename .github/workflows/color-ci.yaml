@@ -32,23 +32,13 @@ jobs:
       
     - name: Building the Docker image
       env:
-        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/build-by-github-action:0.0.1
+        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/color:
       run: |
         cd color;
-        docker build . --tag anthony_rozario/color-service:${{ steps.vars.outputs.sha_short }}
-        docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
+        docker build . --file Dockerfile --tag $CF_IMAGE:${{ needs.build.outputs.sha_short }} && docker push $CF_IMAGE:${{ needs.build.outputs.sha_short }}
         echo "Image should be accessible to your local machine (after docker login) by:"
-        echo "docker pull $CF_IMAGE"
-        docker pull $CF_IMAGE
-
-    - name: Push To Registry
-      uses: redhat-actions/push-to-registry@v2.5.1
-      with:
-        image: anthony_rozario/color-service
-        tags: ${{ steps.vars.outputs.sha_short }}
-        registry: quay.io
-        username: anthony_rozario
-        password: ${{ secrets.docker_registry_password }}
+        echo "docker pull $CF_IMAGE:${{ needs.build.outputs.sha_short }} "
+        docker pull $CF_IMAGE:${{ needs.build.outputs.sha_short }} 
 
     - name: Echo var
       run: |
