@@ -22,7 +22,7 @@ jobs:
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        username: nightmar39
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
 
@@ -32,7 +32,7 @@ jobs:
       
     - name: Building the Docker image
       env:
-        CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/color:${{ needs.build.outputs.sha_short }} 
+        CF_IMAGE: nightmar39/color:${{ needs.build.outputs.sha_short }} 
       run: |
         cd color;
         docker build . --file Dockerfile --tag $CF_IMAGE:${{ needs.build.outputs.sha_short }} && docker push $CF_IMAGE:${{ needs.build.outputs.sha_short }}
