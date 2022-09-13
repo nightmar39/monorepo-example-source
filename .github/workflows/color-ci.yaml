@@ -32,7 +32,7 @@ jobs:
       
     - name: Building the Docker image
       env:
-        CF_IMAGE: nightmar39/color:${{ needs.build.outputs.sha_short }} 
+        CF_IMAGE: nightmar39/color:${{ steps.vars.outputs.sha_short }} 
       run: |
         cd color;
         docker build . --file Dockerfile --tag $CF_IMAGE:${{ steps.vars.outputs.sha_short }} && docker push $CF_IMAGE:${{ steps.vars.outputs.sha_short }}
