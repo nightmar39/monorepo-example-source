@@ -60,7 +60,7 @@ jobs:
         CF_IMAGE: '${{ steps.build.outputs.cf-image }}'
 
         # Container registry integration where the image is stored.
-        CF_CONTAINER_REGISTRY_INTEGRATION: 'gha2'
+        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
 
         # Git branch with the commit  Pull Request data to add to the image. Pass the branch from the event payload used to trigger your action.
         CF_GIT_BRANCH: 'main'
