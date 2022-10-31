@@ -61,9 +61,11 @@ jobs:
 
         # Container registry integration where the image is stored.
 #        CF_CONTAINER_REGISTRY_INTEGRATION: 'docker'
-        AWS_ROLE_SECRET: 'ecr-test'
+        #AWS_ROLE_SECRET: 'ecr-test'
 
-        AWS_ROLE_SECRET_KEY: 'role_arn'
+        #AWS_ROLE_SECRET_KEY: 'role_arn'
+
+        CF_AWS_ROLE: ecr-test 
 
         # Git branch with the commit  Pull Request data to add to the image. Pass the branch from the event payload used to trigger your action.
         CF_GIT_BRANCH: 'main'
