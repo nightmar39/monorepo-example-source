@@ -67,6 +67,8 @@ jobs:
 
         CF_AWS_ROLE: ecr-test 
 
+        CF_AWS_REGION: us-east-2
+
         # Git branch with the commit  Pull Request data to add to the image. Pass the branch from the event payload used to trigger your action.
         CF_GIT_BRANCH: 'main'
 
