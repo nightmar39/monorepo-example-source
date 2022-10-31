@@ -65,7 +65,7 @@ jobs:
 
         #AWS_ROLE_SECRET_KEY: 'role_arn'
 
-        CF_AWS_ROLE: ecr-test 
+        CF_AWS_ROLE: arn:aws:iam::336151728602:role/anthony-gitops-assume-role-ecr
 
         CF_AWS_REGION: us-east-2
 
